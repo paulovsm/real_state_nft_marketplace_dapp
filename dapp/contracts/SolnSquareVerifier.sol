@@ -51,12 +51,16 @@ contract SolnSquareVerifier is ERC721Mintable {
         require(uniqueSolutions[tokenId].owner == address(0x0));
         require(keccak256(abi.encodePacked(getName())) == keccak256("FrevoCoin"));
         require(keccak256(abi.encodePacked(getSymbol())) == keccak256("FRC"));
+        
         addSolution(tokenId, msg.sender);
         uint256 existingTotalSupply = totalSupply();
         mint(msg.sender, tokenId);
+        
         require(totalSupply() == existingTotalSupply + 1);
+        
         string memory tokenURI = getTokenURI(tokenId);
         string memory expectedTokenURI = strConcat("https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/", uint2strNew(tokenId));
+        
         require(keccak256(abi.encodePacked(tokenURI)) == keccak256(abi.encodePacked(expectedTokenURI)));
     }
 
@@ -65,29 +69,3 @@ contract SolnSquareVerifier is ERC721Mintable {
 abstract contract Verifier {    
     function verifyTx(SquareVerifier.Proof memory proof, uint[2] memory input) public virtual view returns (bool r);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
